@@ -23,7 +23,9 @@ class StoreProjectRequest extends FormRequest
     {
         return [
             'title' => 'required|max:150|string',
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'type_id' => 'required',
+
         ];
     }
 }

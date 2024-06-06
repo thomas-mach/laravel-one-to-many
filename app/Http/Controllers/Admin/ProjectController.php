@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -23,6 +25,7 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::all();
+        // dd($projects[0]);
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -31,7 +34,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $categories = Type::orderBy('name', 'asc')->get();
+        return view('admin.projects.create', compact('categories'));
     }
 
     /**
@@ -39,6 +43,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+
         $form_data = $request->validated();
         $base_slug = Str::slug($form_data['title']);
         $slug = $base_slug;
@@ -65,6 +70,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $categories = Type::orderBy('name', 'asc')->get();
         return view('admin.projects.show', compact('project'));
     }
 
@@ -73,15 +79,21 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        $categories = Type::orderBy('name', 'asc')->get();
+        return view('admin.projects.edit', compact('categories', 'project'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+
+        $form_data = $request->validated();
+
+        $project->update($form_data);
+
+        return to_route('admin.projects.show', $project);
     }
 
     /**

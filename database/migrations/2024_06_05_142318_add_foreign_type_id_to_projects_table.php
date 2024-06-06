@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             // 1. aggiungendo la colonna
-            $table->unsignedBigInteger('category_id')->nullable()->after('id');
+            $table->unsignedBigInteger('type_id')->nullable()->after('id');
             // 2. definendo il vincolo di relazione tra le colonne delle tabelle
-            $table->foreign('category_id')->references('id')->on('types')->onDelete('set null');
+            $table->foreign('type_id')->references('id')->on('types')->onDelete('set null');
 
             // alternativa ai due metodi di sopra
-            // $table->foreignId('category_id')->constrained();
+            // $table->foreignId('type_id')->constrained();
         });
     }
 
@@ -29,11 +29,11 @@ return new class extends Migration
     {
         Schema::table('posts', function (Blueprint $table) {
             // 2. rimuovere il vincolo
-            $table->dropForeign('projects_category_id_foreign'); // nome del vincolo
+            $table->dropForeign('projects_type_id_foreign'); // nome del vincolo
             // $table->dropForeign(['category_id']); // nome del vincolo
 
             // 1. rimuovere la colonna category_id
-            $table->dropColumn('category_id');
+            $table->dropColumn('type_id');
         });
     }
 };

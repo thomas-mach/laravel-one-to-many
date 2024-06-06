@@ -1,11 +1,12 @@
 @extends('layouts.app')
 @section('content')
-<div class="container mt-3">
+<div class="container-fluid d-flex justify-content-center mt-3">
     <table class="">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Title</th>
+                <th>Type</th>
                 <th>Slag</th>
             </tr>
         </thead>
@@ -14,6 +15,7 @@
             <tr class="">
                 <td>{{$project->id}}</td>
                 <td class="px-2"><a href="{{route('admin.projects.show', $project)}}">{{$project->title}}</a></td>
+                <td class="px-2">{{($project->type)->name ?? 'no type' }}</td>
                 <td class="px-2">{{$project->slug}}</td>
                 <td>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{$project->id}}">
@@ -28,7 +30,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Do you really want to delete {{$project->title}}?</p>
+                                    <p><strong>Do you really want delete?</strong>{{$project->title}}?</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
